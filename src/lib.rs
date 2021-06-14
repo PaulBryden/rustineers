@@ -12,7 +12,8 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;*/
 
 
 // This is like the `main` function, except for JavaScript.
-#[wasm_bindgen(start)]
+
+#[wasm_bindgen]
 pub fn main_js() -> Result<(), JsValue> {
     // This provides better error messages in debug mode.
     // It's disabled in release mode so it doesn't bloat up the file size.
@@ -30,4 +31,29 @@ pub fn main_js() -> Result<(), JsValue> {
 pub fn print_function() {
     
     console::log_1(&JsValue::from_str("Hello from Rust! MODIFIED"));
+}
+
+#[wasm_bindgen]
+pub struct Person {
+    name: String,
+}
+#[wasm_bindgen]
+impl Person {
+    pub fn new(val: String) -> Person {
+        Person { name: val }
+    }
+
+    pub fn get(&self) -> String {
+        self.name.clone()
+    }
+
+    pub fn set(&mut self, val: String) {
+        self.name = val;
+    }
+}
+
+#[wasm_bindgen]
+pub fn new_function(x: Person) {
+    console::log_1(&JsValue::from_str("Person's name is:"));
+    console::log_1(&JsValue::from_str(&x.name));
 }

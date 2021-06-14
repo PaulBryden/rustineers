@@ -1,4 +1,4 @@
-import("../pkg").then(module => {
-    console.log("Hello From Typescript! MODIFIED")
-    module.print_function();
-  });
+import {Person, new_function} from "../pkg"
+
+let person: Person = Person.new("Test 2");
+new_function(person);
