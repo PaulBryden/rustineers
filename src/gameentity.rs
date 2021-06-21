@@ -6,13 +6,57 @@ use serde_wasm_bindgen::{from_value, to_value, Error, Serializer};
 pub use super::gameconstants;
 pub use super::position;
 
-pub trait EntityType : Sync + Send {
+pub trait EntityType {
     fn tick(&self);
     fn serialize(&self) -> Entity;
+}
+pub enum EntityID {
+    Engineer(EngineerEntity)
+}
+
+pub struct EntityContainer<E: EntityType>
+{
+    entities: Vec<E>,
+}
+
+impl<E: EntityType> EntityContainer<E>
+{
+    pub fn new() -> EntityContainer<E>
+    {
+        EntityContainer {entities: Vec::new()}
+    }
+    pub fn add_entity(&mut self, entity: E)
+    {
+        self.entities.push(entity);
+    }
+    pub fn serialize(&self) -> Vec<Entity>
+    {    
+        let mut entities: Vec<Entity> = Vec::new();
+        for entity in self.entities.iter() {
+            entities.push(entity.serialize());
+        }
+        entities
+    }
 }
 
 pub struct EngineerEntity {
     pub data: Entity,
+}
+
+impl EntityType for EntityID
+{
+    fn tick(&self)
+    {
+        match self{
+            EntityID::Engineer(engineerEntity) => engineerEntity.tick(),
+        }
+    }
+    fn serialize(&self) -> Entity
+    {
+        match self{
+            EntityID::Engineer(engineerEntity) => engineerEntity.serialize(),
+        }
+    }
 }
 
 impl EntityType for EngineerEntity

@@ -8,14 +8,14 @@ pub use super::gameconstants;
 pub use super::position;
 pub struct Game {
     pub lastTick: f64,
-    pub entities: Vec<Box<dyn gameentity::EntityType>>,
+    pub entities: gameentity::EntityContainer<gameentity::EntityID>,
 }
 
 impl Game
 {   
      pub fn new() -> Game {
     Game { lastTick: 0.0, //milliseconds
-        entities: Vec::new(),
+        entities: gameentity::EntityContainer::new(),
 
     }
 }
@@ -23,7 +23,12 @@ impl Game
     pub fn reset(& mut self)
     {
         self.lastTick=0.0;
-        self.entities.push(Box::new(gameentity::EngineerEntity::new("Engineer".to_string(), "Test".to_string(), gameconstants::Team::Team1, position::Position::new(0.2,0.3), position::Position::new(0.7,0.3), 37)));
+        self.entities.add_entity(gameentity::EntityID::Engineer(gameentity::EngineerEntity::new("Engineer".to_string(), "Test".to_string(), gameconstants::Team::Team1, position::Position::new(0.2,0.3), position::Position::new(0.7,0.3), 37)));
+
+    }
+    pub fn GetEntityData(&self) -> Vec<gameentity::Entity>
+    {
+        self.entities.serialize()
     }
 
     pub fn tick(&mut self, delta: f64)

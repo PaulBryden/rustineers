@@ -76,9 +76,7 @@ pub fn pass_value_to_js() -> Result<JsValue, JsValue> {
 pub fn serialize_canada_with_serde_json() -> Result<JsValue, JsValue> {
     let mut handle = GAME.read().unwrap();
     let mut entities: Vec<gameentity::Entity> = Vec::new();
-    for entity in handle.entities.iter() {
-        entities.push(entity.serialize());
-    }
+    entities = handle.GetEntityData();
 	serde_wasm_bindgen::to_value(&entities).map_err(|err| err.into())
 }
 
