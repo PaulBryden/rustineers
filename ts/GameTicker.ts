@@ -1,4 +1,4 @@
-import { Person, new_function, pass_value_to_js, tick, main_js } from "../pkg"
+import {  tick } from "../pkg"
 
 export class GameTicker
 {

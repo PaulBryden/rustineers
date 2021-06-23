@@ -79,7 +79,6 @@ impl EngineerEntity
         EngineerEntity { data: Entity { name: name, id: id, team: team, position: position, velocity: velocity, health: health }}
     }
 }
-
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Entity {
     pub name: String,
@@ -87,8 +86,7 @@ pub struct Entity {
     pub team: gameconstants::Team,
     pub position: position::Position,
     pub velocity: position::Position,
-    pub health: u32,
-
+    pub health: u32
 }
 
 impl Entity
